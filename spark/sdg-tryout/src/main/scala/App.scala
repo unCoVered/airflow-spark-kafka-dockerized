@@ -4,7 +4,7 @@ import org.apache.spark.sql.SparkSession
 
 object App {
   def main(args: Array[String]): Unit = {
-    val logFile = ".gitignore" // Should be some file on your system
+    val logFile = "/usr/local/spark/resources/data/movies.csv" // Should be some file on your system
     val spark = SparkSession.builder.appName("Simple Application").getOrCreate()
     val logData = spark.read.textFile(logFile).cache()
     val numAs = logData.filter(line => line.contains("a")).count()
