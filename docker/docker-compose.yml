@@ -8,6 +8,8 @@ services:
       - POSTGRES_USER=airflow
       - POSTGRES_PASSWORD=airflow
       - POSTGRES_DB=airflow
+    volumes: 
+      - ./pg-init-scripts:/docker-entrypoint-initdb.d
     ports:
       - "5432:5432"
   airflow-webserver:
@@ -48,7 +50,7 @@ services:
       - SPARK_SSL_ENABLED=no
     volumes: 
       - ../spark/sdg-tryout:/usr/local/spark/sdg-tryout
-      - ../spark/resources:/usr/local/spark/resource
+      - ../spark/resources:/usr/local/spark/resources
       - ../spark/app:/usr/local/spark/app
     ports:
       - '8181:8080'
