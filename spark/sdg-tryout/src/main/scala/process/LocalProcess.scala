@@ -3,6 +3,7 @@ package process
 
 import org.apache.spark.sql.SparkSession
 import net.liftweb.json._
+import sdg.tryout.utils.JsonFunctions
 
 import scala.io.Source
 
@@ -12,8 +13,9 @@ object LocalProcess {
       .option("multiline","true")
       .json("src/main/resources/data/entry.json")
 
-    val dataflowsJson = parse(Source.fromResource("data/dataflows.json").mkString)
+    val dataflowRawList: JsonAST.JValue = parse(Source.fromResource("data/dataflows.json").mkString)
+      .children.head
 
-    println(dataflowsJson)
+    DataflowProcess.processDataflowRawList(dataflowRawList)
   }
 }

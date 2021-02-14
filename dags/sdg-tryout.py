@@ -7,7 +7,10 @@ from datetime import datetime, timedelta
 # Parameters
 ###############################################
 spark_master = "spark://spark:7077"
-postgres_driver_jar = "/usr/local/spark/resources/jars/postgresql-9.4.1207.jar"
+postgres_driver_jar = "/usr/local/spark/resources/jars/postgresql-42.2.18.jar"
+libs_jar = "file:/usr/local/spark/resources/jars/postgresql-42.2.18.jar,file:/usr/local/spark/resources/jars/lift-json_2.13-3.4.3.jar,file:/usr/local/spark/resources/jars/scala-library-2.12.13.jar"
+package_jar = "/usr/local/spark/sdg-tryout/target/scala-2.12/sdg-tryout_2.12-0.1.jar"
+assembly_jar = "/usr/local/spark/sdg-tryout/target/scala-2.12/sdg-tryout-assembly-0.1.jar"
 
 load_mode = "load"
 read_mode = "read"
@@ -44,7 +47,7 @@ start = DummyOperator(task_id="start", dag=dag)
 
 spark_job_load_postgres = SparkSubmitOperator(
     task_id="spark_job_load_postgres",
-    application="/usr/local/spark/sdg-tryout/target/scala-2.12/sdg-tryout_2.12-0.1.jar",
+    application=assembly_jar,
     name="load-postgres",
     conn_id="spark_default",
     verbose=1,
@@ -56,13 +59,13 @@ spark_job_load_postgres = SparkSubmitOperator(
 
 spark_job_read_postgres = SparkSubmitOperator(
     task_id="spark_job_read_postgres",
-    application="/usr/local/spark/sdg-tryout/target/scala-2.12/sdg-tryout_2.12-0.1.jar",  
+    application=assembly_jar,  
     name="read-postgres",
     conn_id="spark_default",
     verbose=1,
     conf={"spark.master":spark_master},
     application_args=[read_mode, postgres_db,postgres_user,postgres_pwd, dataflows_file],
-    jars=postgres_driver_jar,
+    jars=libs_jar,
     driver_class_path=postgres_driver_jar,
     dag=dag)
 
