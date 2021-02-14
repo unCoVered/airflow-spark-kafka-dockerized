@@ -27,7 +27,6 @@ services:
        - ../dags:/usr/local/airflow/dags
        - ../spark/sdg-tryout:/usr/local/spark/sdg-tryout
        - ../spark/resources:/usr/local/spark/resources
-       - ../spark/app:/usr/local/spark/app
     ports:
        - "8282:8282"
     command: webserver
@@ -51,7 +50,6 @@ services:
     volumes: 
       - ../spark/sdg-tryout:/usr/local/spark/sdg-tryout
       - ../spark/resources:/usr/local/spark/resources
-      - ../spark/app:/usr/local/spark/app
     ports:
       - '8181:8080'
       - '7077:7077'
@@ -72,7 +70,6 @@ services:
     volumes: 
       - ../spark/sdg-tryout:/usr/local/spark/sdg-tryout
       - ../spark/resources:/usr/local/spark/resources
-      - ../spark/app:/usr/local/spark/app
   spark-worker-2:
     image: docker.io/bitnami/spark:latest
     user: root
@@ -90,6 +87,5 @@ services:
     volumes: 
       - ../spark/sdg-tryout:/usr/local/spark/sdg-tryout
       - ../spark/resources:/usr/local/spark/resources
-      - ../spark/app:/usr/local/spark/app
 networks:
   default_net:

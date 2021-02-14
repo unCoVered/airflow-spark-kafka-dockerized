@@ -42,7 +42,7 @@ start = DummyOperator(task_id="start", dag=dag)
 
 spark_job_load_postgres = SparkSubmitOperator(
     task_id="spark_job_load_postgres",
-    application="/usr/local/spark/app/load-postgres.py", # Spark application path created in airflow and spark cluster
+    application="/usr/local/spark/sdg-tryout/pyspark-examples/load-postgres.py", # Spark application path created in airflow and spark cluster
     name="load-postgres",
     conn_id="spark_default",
     verbose=1,
@@ -54,7 +54,7 @@ spark_job_load_postgres = SparkSubmitOperator(
 
 spark_job_read_postgres = SparkSubmitOperator(
     task_id="spark_job_read_postgres",
-    application="/usr/local/spark/app/read-postgres.py", # Spark application path created in airflow and spark cluster
+    application="/usr/local/spark/sdg-tryout/pyspark-examples/read-postgres.py", # Spark application path created in airflow and spark cluster
     name="read-postgres",
     conn_id="spark_default",
     verbose=1,
