@@ -4,7 +4,7 @@ package process
 import net.liftweb.json.JsonParser.ParseException
 import org.apache.spark.sql.SparkSession
 import net.liftweb.json._
-import sdg.tryout.utils.{Constants, JsonFunctions, SparkFuntions}
+import utils.{JsonFunctions, SparkFuntions, TransformFunctions}
 
 import scala.io.Source
 
@@ -23,10 +23,13 @@ object LocalProcess {
         val sinks = dataflow.sinks
 
         val entryDf = SparkFuntions.readMultiLineJson(sparkSession,
-          "data/input/events/person" + sourceList.head.path)
+          "src/main/resources" + sourceList.head.path)
+
+        val transformedDf = TransformFunctions.applyDataflowTransformations(entryDf, transformations)
+        transformedDf.show()
       }
     } catch {
-    case e: ParseException => println("Error parsing dataflows json")
+      case e: ParseException => println("Error parsing dataflows json")
     }
   }
 }

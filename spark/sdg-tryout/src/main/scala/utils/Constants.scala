@@ -11,6 +11,11 @@ object Constants {
     val RESOURCES_ROUTE = "/usr/local/spark/resources"
   }
 
+  object TransformationsType {
+    val VALIDATE_FIELDS = "validate_fields"
+    val ADD_FIELDS = "add_fields"
+  }
+
   object SparkOptions {
     val FORMAT_JDBC = "jdbc"
     val OPT_URL = "url"

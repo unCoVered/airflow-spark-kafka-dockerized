@@ -15,6 +15,7 @@ object JsonFunctions {
   case class Source(name: String, path: String, format: String)
   case class Transformation(name: String, `type`: String, params: Parameter)
   case class Sink(input: String, name: String, paths: List[String], format: String, saveMode: String)
-  case class Parameter(input: String, addFileds: List[Field])
+  case class Parameter(input: String, validations: Option[List[Validation]], addFields: Option[List[Field]])
+  case class Validation(field: String, validations: List[String])
   case class Field(name: String, function: String)
 }

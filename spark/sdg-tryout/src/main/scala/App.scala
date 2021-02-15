@@ -21,7 +21,7 @@ object App {
       case Left(sparkSession) =>
         if (mode == MODE_REMOTE) {
           val dataflowsFile = args(4)
-          TransformProcess.init(sparkSession, dataflowsFile, postgresDb, postgresUser, postgresPwd)
+          ClusterProcess.init(sparkSession, dataflowsFile, postgresDb, postgresUser, postgresPwd)
         }
 
         sparkSession.stop()
