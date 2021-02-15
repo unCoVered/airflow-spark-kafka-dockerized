@@ -19,15 +19,9 @@ object App {
         LocalProcess.init(sparkSession)
         sparkSession.stop()
       case Left(sparkSession) =>
-        if (mode == MODE_LOAD) {
-          val entryFile = args(4)
-
-          LoadProcess.init(sparkSession, entryFile, postgresDb, postgresUser, postgresPwd)
-        }
-        if (mode == MODE_READ) {
+        if (mode == MODE_REMOTE) {
           val dataflowsFile = args(4)
-
-          ReadProcess.init(sparkSession, dataflowsFile, postgresDb, postgresUser, postgresPwd)
+          TransformProcess.init(sparkSession, dataflowsFile, postgresDb, postgresUser, postgresPwd)
         }
 
         sparkSession.stop()

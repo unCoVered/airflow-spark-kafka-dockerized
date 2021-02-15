@@ -1,10 +1,14 @@
-package sdg.tryout.utils
+package sdg.tryout
+package utils
 
 object Constants {
   object AppModes{
     val MODE_LOCAL = "local"
-    val MODE_LOAD = "load"
-    val MODE_READ = "read"
+    val MODE_REMOTE = "remote"
+  }
+
+  object Routes {
+    val RESOURCES_ROUTE = "/usr/local/spark/resources"
   }
 
   object SparkOptions {
