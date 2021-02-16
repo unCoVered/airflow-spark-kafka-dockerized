@@ -43,19 +43,20 @@ object ClusterProcess {
     val (validRecordsDf, invalidRecordsDf)  = TransformFunctions.applyDataflowTransformations(entryDf, transformations)
 
     for (sink <- sinks) {
-      val fileName = sink.name
+      val fileName = sink.name.replace("-", "_")
       val format = sink.format
       val saveMode = sink.saveMode
 
       sink.input match {
         case OK_WITH_DATE =>
           for (path <- sink.paths) {
-            SparkFuntions.writeDf(validRecordsDf, RESOURCES_ROUTE + path, fileName, format.toLowerCase, saveMode.toLowerCase)
-            SparkFuntions.writeDfPostgres(entryDf, s"public.$fileName", saveMode, postgresDb, postgresUser, postgresPwd)
+//            SparkFuntions.writeDf(validRecordsDf, RESOURCES_ROUTE + path, fileName, format.toLowerCase, saveMode.toLowerCase)
+            SparkFuntions.writeDfPostgres(validRecordsDf, s"public.$fileName", saveMode, postgresDb, postgresUser, postgresPwd)
           }
         case VALIDATION_KO =>
           for (path <- sink.paths) {
-            SparkFuntions.writeDf(invalidRecordsDf, RESOURCES_ROUTE + path, fileName, format.toLowerCase, saveMode.toLowerCase)
+//            SparkFuntions.writeDf(invalidRecordsDf, RESOURCES_ROUTE + path, fileName, format.toLowerCase, saveMode.toLowerCase)
+            SparkFuntions.writeDfPostgres(invalidRecordsDf, s"public.$fileName", saveMode, postgresDb, postgresUser, postgresPwd)
           }
       }
     }

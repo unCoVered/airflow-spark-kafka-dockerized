@@ -56,4 +56,4 @@ spark_job_transform_json = SparkSubmitOperator(
 
 end = DummyOperator(task_id="end", dag=dag)
 
-start >> spark_job_load_postgres >> spark_job_read_postgres >> end
+start >> spark_job_transform_json >> end
