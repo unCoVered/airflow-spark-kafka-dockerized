@@ -5,8 +5,9 @@ import utils.Constants.TransformationsType.{ADD_FIELDS, VALIDATE_FIELDS}
 import utils.JsonFunctions.{Field, Transformation}
 
 import org.apache.spark.sql.catalyst.ScalaReflection.universe.Quasiquote
-import org.apache.spark.sql.functions.lit
-import org.apache.spark.sql.DataFrame
+import org.apache.spark.sql.functions.{col, current_timestamp, lit}
+import org.apache.spark.sql.{Column, DataFrame}
+import sdg.tryout.utils.Constants.Validations.{CURRENT_TIMESTAMP, NOT_EMPTY, NOT_NULL}
 
 object TransformFunctions {
 
@@ -32,20 +33,27 @@ object TransformFunctions {
   }
 
   val validateFields: (String, String) => DataFrame => DataFrame = (field, validation) => entryDf => {
-    val temp = entryDf
-      .where(s"${field} is ${validation}")
-    println("validate fields")
-    temp.show
-
-    temp
+    val parsedValidation = parseValidation(validation);
+    entryDf
+      .where(s"${field} ${parsedValidation}")
   }
 
   val addFields: Field => DataFrame => DataFrame = field => entryDf => {
-    val temp = entryDf
-      .withColumn(s"${field.name}", lit(q"""field.function"""))
-    println("add fields")
-    temp.show
+    val parsedFunction = parseFunction(field.function)
+    entryDf
+      .withColumn(s"${field.name}", parsedFunction)
+  }
 
-    temp
+  def parseValidation(validation: String): String = {
+    validation match {
+      case NOT_EMPTY => " <> ''"
+      case NOT_NULL => "IS NOT NULL"
+    }
+  }
+
+  def parseFunction(function: String): Column = {
+    function match {
+      case CURRENT_TIMESTAMP => current_timestamp
+    }
   }
 }

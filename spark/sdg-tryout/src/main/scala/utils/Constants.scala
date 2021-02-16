@@ -16,6 +16,12 @@ object Constants {
     val ADD_FIELDS = "add_fields"
   }
 
+  object Validations {
+    val NOT_EMPTY = "notEmpty"
+    val NOT_NULL = "notNull"
+    val CURRENT_TIMESTAMP = "current_timestamp"
+  }
+
   object SparkOptions {
     val FORMAT_JDBC = "jdbc"
     val OPT_URL = "url"
