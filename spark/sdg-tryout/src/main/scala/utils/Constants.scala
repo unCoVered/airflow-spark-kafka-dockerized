@@ -22,6 +22,11 @@ object Constants {
     val CURRENT_TIMESTAMP = "current_timestamp"
   }
 
+  object SinkInputs {
+    val OK_WITH_DATE = "ok_with_date"
+    val VALIDATION_KO = "validation_ko"
+  }
+
   object SparkOptions {
     val FORMAT_JDBC = "jdbc"
     val OPT_URL = "url"

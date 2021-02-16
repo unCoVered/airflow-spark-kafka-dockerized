@@ -30,7 +30,7 @@ object SparkFuntions {
 
   }
 
-  def writeDfPostgres(df: DataFrame, table: String, postgresDb: String,
+  def writeDfPostgres(df: DataFrame, table: String, mode: String, postgresDb: String,
                       postgresUser: String, postgresPwd: String): Unit = {
     println("Writing DF in PostgreSQL")
 
@@ -40,7 +40,15 @@ object SparkFuntions {
       .option(OPT_DB_TABLE, table)
       .option(OPT_USER, postgresUser)
       .option(OPT_PASSWORD, postgresPwd)
-      .mode(WRITE_MODE_OVERWRITE)
+      .mode(mode)
       .save()
+  }
+
+  def writeDf(df: DataFrame, route: String, fileName: String, format: String, mode: String): Unit = {
+    df.coalesce(1)
+      .write
+      .format(format)
+      .mode(mode)
+      .save(route + "/" + fileName)
   }
 }

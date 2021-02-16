@@ -6,6 +6,8 @@ import org.apache.spark.sql.SparkSession
 import net.liftweb.json._
 import utils.{JsonFunctions, SparkFuntions, TransformFunctions}
 
+import sdg.tryout.utils.Constants.SinkInputs.{OK_WITH_DATE, VALIDATION_KO}
+
 import scala.io.Source
 
 object LocalProcess {
@@ -17,16 +19,33 @@ object LocalProcess {
       val dataflowClassList = JsonFunctions.parseDataflowJson(dataflowRawList)
 
       for (dataflow <- dataflowClassList) {
-        val name = dataflow.name
         val sourceList = dataflow.sources
         val transformations = dataflow.transformations
         val sinks = dataflow.sinks
 
-        val entryDf = SparkFuntions.readMultiLineJson(sparkSession,
-          "src/main/resources" + sourceList.head.path)
+        val resourcesRoute = "src/main/resources"
 
-        val transformedDf = TransformFunctions.applyDataflowTransformations(entryDf, transformations)
-        transformedDf.show()
+        val entryDf = SparkFuntions.readMultiLineJson(sparkSession,
+          resourcesRoute + sourceList.head.path)
+
+        val (validRecordsDf, invalidRecordsDf) = TransformFunctions.applyDataflowTransformations(entryDf, transformations)
+
+        for (sink <- sinks) {
+          val fileName = sink.name
+          val format = sink.format
+          val saveMode = sink.saveMode
+
+          sink.input match {
+            case OK_WITH_DATE =>
+              for (path <- sink.paths) {
+                SparkFuntions.writeDf(validRecordsDf, resourcesRoute + path, fileName, format.toLowerCase, saveMode.toLowerCase)
+              }
+            case VALIDATION_KO =>
+              for (path <- sink.paths) {
+                SparkFuntions.writeDf(invalidRecordsDf, resourcesRoute + path, fileName, format.toLowerCase, saveMode.toLowerCase)
+              }
+          }
+        }
       }
     } catch {
       case e: ParseException => println("Error parsing dataflows json")
