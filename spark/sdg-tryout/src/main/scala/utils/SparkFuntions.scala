@@ -2,8 +2,7 @@ package sdg.tryout
 package utils
 
 import org.apache.spark.sql.{DataFrame, SparkSession}
-import sdg.tryout.utils.Constants.Kafka.KAFKA_HOST
-import sdg.tryout.utils.Constants.SparkOptions._
+import utils.Constants.SparkOptions._
 
 object SparkFuntions {
 
@@ -50,14 +49,20 @@ object SparkFuntions {
       .save(route + "/" + fileName)
   }
 
-  def writeDfKafka(df: DataFrame, format: String, topic: String): Unit = {
+  def writeDfKafka(df: DataFrame, format: String, topic: String, kafkaHost: String): Unit = {
+    println("Writing in Kafka")
+    println(s"format: $format")
+    println(s"KAFKA_HOST: $kafkaHost")
+    println(s"topic: $topic")
     df
       .toJSON
       .selectExpr("CAST(value AS STRING)")
       .write
       .format(format)
-      .option(KAFKA_BS_SERVERS, KAFKA_HOST)
+      .option(KAFKA_BS_SERVERS, kafkaHost)
       .option(TOPIC, topic)
       .save()
+
+    println("Written in KAFKA")
   }
 }

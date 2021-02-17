@@ -6,6 +6,7 @@ import org.apache.spark.sql.SparkSession
 import net.liftweb.json._
 import utils.{JsonFunctions, SparkFuntions, TransformFunctions}
 
+import sdg.tryout.utils.Constants.Kafka.KAFKA_HOST_LOCAL
 import sdg.tryout.utils.Constants.SinkInputs.{OK_WITH_DATE, VALIDATION_KO}
 
 import scala.io.Source
@@ -39,10 +40,12 @@ object LocalProcess {
             case OK_WITH_DATE =>
               for (path <- sink.paths) {
                 SparkFuntions.writeDf(validRecordsDf, resourcesRoute + path, fileName, format.toLowerCase, saveMode.toLowerCase)
+                SparkFuntions.writeDfKafka(validRecordsDf, "kafka", fileName, KAFKA_HOST_LOCAL)
               }
             case VALIDATION_KO =>
               for (path <- sink.paths) {
                 SparkFuntions.writeDf(invalidRecordsDf, resourcesRoute + path, fileName, format.toLowerCase, saveMode.toLowerCase)
+                SparkFuntions.writeDfKafka(validRecordsDf, "kafka", fileName, KAFKA_HOST_LOCAL)
               }
           }
         }

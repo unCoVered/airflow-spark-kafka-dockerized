@@ -28,7 +28,8 @@ object Constants {
   }
 
   object Kafka {
-    val KAFKA_HOST = "kafka:9092"
+    val KAFKA_HOST_CLUSTER = "INSIDE://kafka:9093"
+    val KAFKA_HOST_LOCAL = "OUTSIDE://localhost:9092"
   }
 
   object SparkOptions {

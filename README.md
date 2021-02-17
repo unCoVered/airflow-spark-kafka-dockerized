@@ -31,5 +31,5 @@ En modo cluster, envia los registros OK/KO a un topic que tiene el nombre indica
 
 
 ### Kafka
-Kafka: kafka:9092
+Kafka: INSIDE://kafka:9093
 Se ha desplegado una instancia de Kafka sencilla, con un zookeeper asociado. 

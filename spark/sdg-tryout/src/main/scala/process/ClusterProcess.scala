@@ -7,6 +7,7 @@ import org.apache.spark.sql.SparkSession
 import utils.JsonFunctions.DataFlow
 import utils.{Constants, JsonFunctions, SparkFuntions, TransformFunctions}
 
+import sdg.tryout.utils.Constants.Kafka.KAFKA_HOST_CLUSTER
 import sdg.tryout.utils.Constants.Routes.RESOURCES_ROUTE
 import sdg.tryout.utils.Constants.SinkInputs.{OK_WITH_DATE, VALIDATION_KO}
 
@@ -50,10 +51,10 @@ object ClusterProcess {
       sink.input match {
         case OK_WITH_DATE =>
           SparkFuntions.writeDfPostgres(validRecordsDf, s"public.$fileName", saveMode, postgresDb, postgresUser, postgresPwd)
-          SparkFuntions.writeDfKafka(validRecordsDf, "kafka", fileName)
+          SparkFuntions.writeDfKafka(validRecordsDf, "kafka", fileName, KAFKA_HOST_CLUSTER)
         case VALIDATION_KO =>
           SparkFuntions.writeDfPostgres(invalidRecordsDf, s"public.$fileName", saveMode, postgresDb, postgresUser, postgresPwd)
-          SparkFuntions.writeDfKafka(invalidRecordsDf, "kafka", fileName)
+          SparkFuntions.writeDfKafka(invalidRecordsDf, "kafka", fileName, KAFKA_HOST_CLUSTER)
       }
     }
 
