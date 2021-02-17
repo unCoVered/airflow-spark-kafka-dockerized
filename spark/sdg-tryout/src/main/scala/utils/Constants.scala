@@ -27,6 +27,10 @@ object Constants {
     val VALIDATION_KO = "validation_ko"
   }
 
+  object Kafka {
+    val KAFKA_HOST = "kafka:9092"
+  }
+
   object SparkOptions {
     val FORMAT_JDBC = "jdbc"
     val OPT_URL = "url"
@@ -34,5 +38,7 @@ object Constants {
     val OPT_USER = "user"
     val OPT_PASSWORD = "password"
     val WRITE_MODE_OVERWRITE = "overwrite"
+    val KAFKA_BS_SERVERS = "kafka.bootstrap.servers"
+    val TOPIC = "topic"
   }
 }

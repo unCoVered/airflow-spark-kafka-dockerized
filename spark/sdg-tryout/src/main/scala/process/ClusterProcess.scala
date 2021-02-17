@@ -49,15 +49,11 @@ object ClusterProcess {
 
       sink.input match {
         case OK_WITH_DATE =>
-          for (path <- sink.paths) {
-//            SparkFuntions.writeDf(validRecordsDf, RESOURCES_ROUTE + path, fileName, format.toLowerCase, saveMode.toLowerCase)
-            SparkFuntions.writeDfPostgres(validRecordsDf, s"public.$fileName", saveMode, postgresDb, postgresUser, postgresPwd)
-          }
+          SparkFuntions.writeDfPostgres(validRecordsDf, s"public.$fileName", saveMode, postgresDb, postgresUser, postgresPwd)
+          SparkFuntions.writeDfKafka(validRecordsDf, "kafka", fileName)
         case VALIDATION_KO =>
-          for (path <- sink.paths) {
-//            SparkFuntions.writeDf(invalidRecordsDf, RESOURCES_ROUTE + path, fileName, format.toLowerCase, saveMode.toLowerCase)
-            SparkFuntions.writeDfPostgres(invalidRecordsDf, s"public.$fileName", saveMode, postgresDb, postgresUser, postgresPwd)
-          }
+          SparkFuntions.writeDfPostgres(invalidRecordsDf, s"public.$fileName", saveMode, postgresDb, postgresUser, postgresPwd)
+          SparkFuntions.writeDfKafka(invalidRecordsDf, "kafka", fileName)
       }
     }
 

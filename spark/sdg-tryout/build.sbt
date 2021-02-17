@@ -10,6 +10,7 @@ libraryDependencies += "org.apache.spark" %% "spark-sql" % "3.0.1"
 libraryDependencies += "net.liftweb" %% "lift-json" % "3.4.3"
 libraryDependencies += "org.postgresql" % "postgresql" % "42.2.18"
 libraryDependencies += "org.scala-lang" % "scala-library" % "2.12.13"
+libraryDependencies += "org.apache.spark" %% "spark-sql-kafka-0-10" % "3.1.0"
 
 assemblyMergeStrategy in assembly := {
   case PathList("META-INF", xs @ _*) => MergeStrategy.discard

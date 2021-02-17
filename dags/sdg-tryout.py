@@ -8,7 +8,7 @@ from datetime import datetime, timedelta
 ###############################################
 spark_master = "spark://spark:7077"
 postgres_driver_jar = "/usr/local/spark/resources/jars/postgresql-42.2.18.jar"
-libs_jar = "file:/usr/local/spark/resources/jars/postgresql-42.2.18.jar,file:/usr/local/spark/resources/jars/lift-json_2.13-3.4.3.jar,file:/usr/local/spark/resources/jars/scala-library-2.12.13.jar"
+libs_jar = "file:/usr/local/spark/resources/jars/postgresql-42.2.18.jar,file:/usr/local/spark/resources/jars/lift-json_2.13-3.4.3.jar,file:/usr/local/spark/resources/jars/scala-library-2.12.13.jar,file:/usr/local/spark/resources/jars/spark-sql-kafka-0-10_2.12-3.1.0.jar"
 assembly_jar = "/usr/local/spark/sdg-tryout/target/scala-2.12/sdg-tryout-assembly-0.1.jar"
 
 remote = "remote"

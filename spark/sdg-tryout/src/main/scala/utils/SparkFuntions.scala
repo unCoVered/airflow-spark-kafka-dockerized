@@ -2,7 +2,7 @@ package sdg.tryout
 package utils
 
 import org.apache.spark.sql.{DataFrame, SparkSession}
-
+import sdg.tryout.utils.Constants.Kafka.KAFKA_HOST
 import sdg.tryout.utils.Constants.SparkOptions._
 
 object SparkFuntions {
@@ -32,8 +32,6 @@ object SparkFuntions {
 
   def writeDfPostgres(df: DataFrame, table: String, mode: String, postgresDb: String,
                       postgresUser: String, postgresPwd: String): Unit = {
-    println("Writing DF in PostgreSQL")
-
     df.write
       .format(FORMAT_JDBC)
       .option(OPT_URL, postgresDb)
@@ -50,5 +48,16 @@ object SparkFuntions {
       .format(format)
       .mode(mode)
       .save(route + "/" + fileName)
+  }
+
+  def writeDfKafka(df: DataFrame, format: String, topic: String): Unit = {
+    df
+      .toJSON
+      .selectExpr("CAST(value AS STRING)")
+      .write
+      .format(format)
+      .option(KAFKA_BS_SERVERS, KAFKA_HOST)
+      .option(TOPIC, topic)
+      .save()
   }
 }
