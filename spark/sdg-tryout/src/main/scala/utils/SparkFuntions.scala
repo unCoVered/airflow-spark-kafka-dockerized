@@ -50,10 +50,6 @@ object SparkFuntions {
   }
 
   def writeDfKafka(df: DataFrame, format: String, topic: String, kafkaHost: String): Unit = {
-    println("Writing in Kafka")
-    println(s"format: $format")
-    println(s"KAFKA_HOST: $kafkaHost")
-    println(s"topic: $topic")
     df
       .toJSON
       .selectExpr("CAST(value AS STRING)")
@@ -62,7 +58,5 @@ object SparkFuntions {
       .option(KAFKA_BS_SERVERS, kafkaHost)
       .option(TOPIC, topic)
       .save()
-
-    println("Written in KAFKA")
   }
 }

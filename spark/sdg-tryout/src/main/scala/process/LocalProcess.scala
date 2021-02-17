@@ -40,12 +40,10 @@ object LocalProcess {
             case OK_WITH_DATE =>
               for (path <- sink.paths) {
                 SparkFuntions.writeDf(validRecordsDf, resourcesRoute + path, fileName, format.toLowerCase, saveMode.toLowerCase)
-                SparkFuntions.writeDfKafka(validRecordsDf, "kafka", fileName, KAFKA_HOST_LOCAL)
               }
             case VALIDATION_KO =>
               for (path <- sink.paths) {
                 SparkFuntions.writeDf(invalidRecordsDf, resourcesRoute + path, fileName, format.toLowerCase, saveMode.toLowerCase)
-                SparkFuntions.writeDfKafka(validRecordsDf, "kafka", fileName, KAFKA_HOST_LOCAL)
               }
           }
         }
