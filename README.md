@@ -1,5 +1,4 @@
-# sdg-tryout
-
+# Airflow orquestated spark-kafka process
 ### Infraestructura
 Se ha desarrollado un fichero docker-compose que levanta los siguientes contenedores de docker
 1. PostgreSQL -> Soporte de Airflow y persistencia de DataFrame procesados
